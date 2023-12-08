@@ -1827,6 +1827,9 @@ static void recv_generator(char *fname, struct file_struct *file, int ndx,
 	}
 
 	if (append_mode > 0 && sx.st.st_size >= F_LENGTH(file)) {
+		set_file_attrs(fname, file, &sx, NULL, maybe_ATTRS_REPORT | maybe_ATTRS_ACCURATE_TIME);
+		if (itemizing)
+			itemize(fnamecmp, file, ndx, statret, &sx, 0, 0, NULL);
 #ifdef SUPPORT_HARD_LINKS
 		if (F_IS_HLINKED(file))
 			handle_skipped_hlink(file, itemizing, code, f_out);
